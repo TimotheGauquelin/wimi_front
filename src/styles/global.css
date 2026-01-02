@@ -1,10 +1,35 @@
 @import "tailwindcss";
 
-* {
-  margin: 0;
-  padding: 0;
+html { 
+  font-size: 100%; 
+} 
+
+@theme {
+  --color-light-red: #FFE0DB;
+  --color-red-font: #FF383C;
+  --color-light-blue: #DEF5FF;
+  --color-true-blue: #2F65DB;
+  --color-pale-blue: #9AB6F2;
+  --color-black-font: #2A3342;
+  --color-gray-outline: #D5DAE1;
+
+  --text-xs: 0.625rem; /* 10px */
+  --text-sm: 0.75rem; /* 12px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.25rem; /* 20px */
+  --text-xl: 1.50rem; /* 24px */
+  --text-2xl: 2rem; /* 32px */
+
+  --inset-shadow-main: 0px 4px 12px 0px rgba(0, 0, 0, 0.25);
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
+
+
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -21,4 +46,3 @@ body {
 .app {
   min-height: 100vh;
 }
-
