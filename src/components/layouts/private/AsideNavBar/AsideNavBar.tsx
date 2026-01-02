@@ -1,4 +1,4 @@
-import { HOME_FRONT_URL } from "@/utils/urls/urlFront/privateUrl";
+import { HOME_FRONT_URL, PROFILE_FRONT_URL, SETTINGS_FRONT_URL, TASKS_FRONT_URL } from "@/utils/urls/urlFront/privateUrl";
 import { BsFillHouseFill, BsFillPersonFill, BsFillGearFill, BsListTask, BsArrowBarRight } from "react-icons/bs";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/stores/authStore';
@@ -20,17 +20,17 @@ const AsideNavBar: React.FC = () => {
         },
         {
             title: 'Profile',
-            url: '/profile',
+            url: PROFILE_FRONT_URL,
             icon: BsFillPersonFill
         },
         {
             title: 'Tasks',
-            url: '/lists',
+            url: TASKS_FRONT_URL,
             icon: BsListTask
         },
         {
             title: 'Settings',
-            url: '/settings',
+            url: SETTINGS_FRONT_URL,
             icon: BsFillGearFill
         }
     ];

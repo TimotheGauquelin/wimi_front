@@ -8,7 +8,10 @@ import HomePage from '@/pages/private/homepage/HomePage';
 import ProtectedRoute from '@/components/routes/ProtectedRoute';
 import PublicRoute from '@/components/routes/PublicRoute';
 import { LOGIN_FRONT_URL } from '@/utils/urls/urlFront/publicUrl';
-import { HOME_FRONT_URL } from '@/utils/urls/urlFront/privateUrl';
+import { HOME_FRONT_URL, PROFILE_FRONT_URL, SETTINGS_FRONT_URL, TASKS_FRONT_URL } from '@/utils/urls/urlFront/privateUrl';
+import ProfilePage from '@/pages/private/profilePage/ProfilePage';
+import SettingsPage from '@/pages/private/settingsPage/SettingsPage';
+import TaskPage from '@/pages/private/tasksPage/TaskPage';
 
 const AppRoutes: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -35,6 +38,9 @@ const AppRoutes: React.FC = () => {
           }
         >
           <Route path={HOME_FRONT_URL} element={<HomePage />} />
+          <Route path={PROFILE_FRONT_URL} element={<ProfilePage />} />
+          <Route path={SETTINGS_FRONT_URL} element={<SettingsPage />} />
+          <Route path={TASKS_FRONT_URL} element={<TaskPage />} />
         </Route>
 
         <Route
