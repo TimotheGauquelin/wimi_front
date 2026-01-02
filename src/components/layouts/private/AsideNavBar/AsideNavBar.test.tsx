@@ -25,8 +25,11 @@ vi.mock('react-router-dom', async () => {
 describe('AsideNavBar', () => {
   const mockUser = {
     id: 1,
-    name: 'John Doe',
+    firstName: 'John',
+    lastName: 'Doe',
     email: 'john.doe@example.com',
+    role: 'Product Manager',
+    avatar: '/assets/images/pp.jpg',
   };
 
   const mockLogout = vi.fn();
@@ -48,6 +51,33 @@ describe('AsideNavBar', () => {
     
     const userName = screen.getByText('John Doe');
     expect(userName).toBeInTheDocument();
+  });
+
+  it('should display user role when user is logged in', () => {
+    render(
+      <MemoryRouter>
+        <AsideNavBar />
+      </MemoryRouter>
+    );
+    
+    const userRole = screen.getByText('Product Manager');
+    expect(userRole).toBeInTheDocument();
+  });
+
+  it('should not display user info when user is not logged in', () => {
+    (useAuth as any).mockReturnValue({
+      user: null,
+      logout: mockLogout,
+    });
+
+    render(
+      <MemoryRouter>
+        <AsideNavBar />
+      </MemoryRouter>
+    );
+    
+    expect(screen.queryByText('John Doe')).not.toBeInTheDocument();
+    expect(screen.queryByText('Product Manager')).not.toBeInTheDocument();
   });
 
   it('should render profile image', () => {

@@ -10,7 +10,7 @@ const AsideNavBar: React.FC = () => {
     const navigate = useNavigate();
     const { user, logout } = useAuth();
 
-    const PP_URL = `/assets/images/pp.jpg`;
+    const PP_URL = user?.avatar || `/assets/images/pp.jpg`;
 
     const sideBarCategories = [
         {
@@ -48,10 +48,10 @@ const AsideNavBar: React.FC = () => {
                 <div className="h-[100px] w-[100px] mx-auto">
                     <img src={PP_URL} alt="Profile" className="w-full h-full rounded-full object-cover border-4 border-white" />
                 </div>
-                <div className="text-center">
-                    <h3 className="text-white text-lg font-semibold">{user?.name || 'User'}</h3>
-                    <p className="text-white text-sm">{user?.email || ''}</p>
-                </div>
+                {user && <div className="text-center">
+                    <h3 className="text-white text-lg font-semibold">{user?.firstName} {user?.lastName}</h3>
+                    <p className="text-white text-sm">{user?.role}</p>
+                </div>}
                 <ul className="flex flex-col gap-2">
                     {sideBarCategories.map((category) => {
                         const Icon = category.icon;
