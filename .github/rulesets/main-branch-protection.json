@@ -1,0 +1,27 @@
+{
+    "name": "Protect Main Branch",
+    "target": "branch",
+    "enforcement": "active",
+    "conditions": {
+        "ref_name": {
+            "include": [
+                "refs/heads/main"
+            ]
+        }
+    },
+    "rules": [
+        {
+            "type": "deletion",
+            "parameters": {
+                "block": true
+            }
+        },
+        {
+            "type": "force_pushes",
+            "parameters": {
+                "block": true
+            }
+        }
+    ],
+    "bypass_actors": []
+}
