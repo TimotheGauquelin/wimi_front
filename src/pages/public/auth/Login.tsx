@@ -6,6 +6,7 @@ import { useAuth } from '@/stores/authStore';
 import { handleLogin } from '@/services/auth';
 import { HOME_FRONT_URL } from '@/utils/urls/urlFront/privateUrl';
 import TextError from '@/components/errors/TextError';
+import SubmitButton from '@/components/buttons/SubmitButton';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -56,13 +57,11 @@ const Login: React.FC = () => {
             onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
           />
           <TextError error={error} />
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full p-3 cursor-pointer rounded-md bg-true-blue text-white disabled:bg-pale-blue disabled:cursor-not-allowed transition-colors"
-          >
-            {loading ? 'Attempting to connect...' : 'Login'}
-          </button>
+          <SubmitButton
+            loading={loading}
+            loadingText="Attempting to connect..."
+            buttonText="Login"
+          />
         </div>
       </form>
     </div>
