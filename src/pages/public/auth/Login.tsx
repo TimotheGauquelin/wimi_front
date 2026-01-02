@@ -5,6 +5,7 @@ import { LoginDataProps } from '@/types/auth.types';
 import { useAuth } from '@/stores/authStore';
 import { handleLogin } from '@/services/auth';
 import { HOME_FRONT_URL } from '@/utils/urls/urlFront/privateUrl';
+import TextError from '@/components/errors/TextError';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -54,11 +55,7 @@ const Login: React.FC = () => {
             value={loginData.password}
             onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
           />
-          {error && (
-            <div className="p-3 rounded-md text-red-font bg-light-red text-base font-semibold">
-              <p><span>Error: </span>{error}</p>
-            </div>
-          )}
+          <TextError error={error} />
           <button
             type="submit"
             disabled={loading}
