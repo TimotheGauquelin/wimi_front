@@ -1,0 +1,33 @@
+name: wimi
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api
+    container_name: wimi-api
+    volumes:
+      - ../db.json:/app/db.json:ro
+    ports:
+      - "3001:3001"
+    networks:
+      - wimi-network
+
+  frontend:
+    image: node:20-alpine
+    container_name: wimi-frontend
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.front
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:3001
+    depends_on:
+      - api
+    networks:
+      - wimi-network
+
+networks:
+  wimi-network:
+    driver: bridge
+

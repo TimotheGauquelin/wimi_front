@@ -1,0 +1,35 @@
+name: wimi-dev
+services:
+  api:
+    image: node:20-alpine
+    container_name: wimi-api-dev
+    working_dir: /app
+    volumes:
+      - ../db.json:/app/db.json:ro
+    command: sh -c "npm install -g json-server@0.17.4 && json-server --watch /app/db.json --host 0.0.0.0 --port 3001 --delay 300"
+    ports:
+      - "3001:3001"
+    networks:
+      - wimi-network-dev
+
+  frontend:
+    image: node:20-alpine
+    container_name: wimi-frontend-dev
+    working_dir: /app
+    volumes:
+      - ../:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:3001
+    depends_on:
+      - api
+    networks:
+      - wimi-network-dev
+
+networks:
+  wimi-network-dev:
+    driver: bridge
+
