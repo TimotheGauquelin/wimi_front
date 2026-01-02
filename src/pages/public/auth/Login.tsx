@@ -5,8 +5,8 @@ import { LoginDataProps } from '@/types/auth.types';
 import { useAuth } from '@/stores/authStore';
 import { handleLogin } from '@/services/auth';
 import { HOME_FRONT_URL } from '@/utils/urls/urlFront/privateUrl';
-import TextError from '@/components/errors/TextError';
-import SubmitButton from '@/components/buttons/SubmitButton';
+import TextError from '@/components/errors/TextError/TextError';
+import SubmitButton from '@/components/buttons/SubmitButton/SubmitButton';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
