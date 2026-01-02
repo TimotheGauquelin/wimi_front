@@ -5,8 +5,11 @@ html {
 } 
 
 @theme {
+  --color-light-red: #FFE0DB;
+  --color-red-font: #FF383C;
   --color-light-blue: #DEF5FF;
   --color-true-blue: #2F65DB;
+  --color-pale-blue: #9AB6F2;
   --color-black-font: #2A3342;
   --color-gray-outline: #D5DAE1;
 
