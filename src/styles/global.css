@@ -12,6 +12,16 @@ html {
   --color-pale-blue: #9AB6F2;
   --color-black-font: #2A3342;
   --color-gray-outline: #D5DAE1;
+  
+  --color-stat-light-green: #F6FFF0;
+  --color-stat-light-blue: #F3F8FF;
+  --color-stat-light-red: #FFF7F7;
+  --color-stat-green: #D1EDC4;
+  --color-stat-blue: #DCE9FF;
+  --color-stat-red: #FFDCDC;
+  --color-stat-green-font: #37701A;
+  --color-stat-blue-font: #1A1D70;
+  --color-stat-red-font: #701A1A;
 
   --text-xs: 0.625rem; /* 10px */
   --text-sm: 0.75rem; /* 12px */
