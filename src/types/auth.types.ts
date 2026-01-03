@@ -12,3 +12,7 @@ export interface User {
   role: string;
 }
 
+export interface UserWithPassword extends User {
+  password: string;
+}
+

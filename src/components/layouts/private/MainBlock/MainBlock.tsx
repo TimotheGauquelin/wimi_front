@@ -5,7 +5,7 @@ const MainBlock: React.FC = () => {
         <main
           className={`overflow-auto col-span-10 py-8 px-4 bg-light-blue`}
         >
-            <div className="bg-white h-full shadow-main rounded-lg p-6">
+            <div className="bg-white h-full shadow-main rounded-lg p-6 overflow-y-auto">
                 <Outlet />
             </div>
         </main>

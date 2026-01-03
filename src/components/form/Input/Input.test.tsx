@@ -6,7 +6,7 @@ import Input from './Input';
 describe('Input', () => {
   it('should display the label correctly', () => {
     render(<Input label="Email" placeholder="email@example.com" type="email" />);
-    
+
     const label = screen.getByText('Email');
 
     expect(label).toBeInTheDocument();
@@ -15,7 +15,7 @@ describe('Input', () => {
 
   it('should display the placeholder correctly', () => {
     render(<Input label="Email" placeholder="email@example.com" type="email" />);
-    
+
     const input = screen.getByPlaceholderText('email@example.com');
     expect(input).toBeInTheDocument();
     expect(input).toHaveAttribute('placeholder', 'email@example.com');
@@ -24,24 +24,55 @@ describe('Input', () => {
   it('should allow typing text', async () => {
     const user = userEvent.setup();
     render(<Input label="Email" placeholder="email@example.com" type="email" />);
-    
+
     const input = screen.getByRole('textbox') as HTMLInputElement;
     await user.type(input, 'test@example.com');
-    
+
     expect(input.value).toBe('test@example.com');
   });
 
   it('should associate the label to the input correctly', () => {
     render(<Input label="Email" placeholder="email@example.com" type="email" />);
-    
+
     const label = screen.getByText('Email');
     const input = screen.getByRole('textbox');
-    
+
     expect(label).toHaveAttribute('for', 'email');
     expect(input).toHaveAttribute('id', 'email');
-    
+
     const inputByLabel = screen.getByLabelText('Email');
     expect(inputByLabel).toBe(input);
+  });
+
+  it('should display asterisk when required is true', () => {
+    render(<Input label="Email" placeholder="email@example.com" type="email" required={true} />);
+
+    const asterisk = screen.getByText('*');
+    expect(asterisk).toBeInTheDocument();
+    expect(asterisk.tagName).toBe('SPAN');
+  });
+
+  it('should not display asterisk when required is false', () => {
+    render(<Input label="Email" placeholder="email@example.com" type="email" required={false} />);
+
+    const asterisk = screen.queryByText('*');
+    expect(asterisk).not.toBeInTheDocument();
+  });
+
+  it('should disable the input when disabled is true', () => {
+    render(<Input label="Email" placeholder="email@example.com" type="email" disabled={true} />);
+
+    const input = screen.getByRole('textbox');
+    expect(input).toBeDisabled();
+    expect(input).toHaveAttribute('disabled');
+  });
+
+  it('should not disable the input when disabled is false', () => {
+    render(<Input label="Email" placeholder="email@example.com" type="email" disabled={false} />);
+
+    const input = screen.getByRole('textbox');
+    expect(input).not.toBeDisabled();
+    expect(input).not.toHaveAttribute('disabled');
   });
 });
 
