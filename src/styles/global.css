@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-html { 
-  font-size: 100%; 
-} 
-
 @theme {
   --color-light-red: #FFE0DB;
   --color-red-font: #FF383C;
@@ -23,6 +19,12 @@ html {
   --inset-shadow-main: 0px 4px 12px 0px rgba(0, 0, 0, 0.25);
   --shadow-main: 0px 4px 12px 0px rgba(47, 101, 219, 0.20);
 }
+
+
+html { 
+  font-size: 100%; 
+  color: var(--color-black-font);
+} 
 
 *,
 *::before,
