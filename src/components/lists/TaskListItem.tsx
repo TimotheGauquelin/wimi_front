@@ -18,10 +18,16 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ item }) => {
             } as React.CSSProperties & { '--item-color': string }}
         >
             <h3 className="font-bold">{item.title}</h3>
-            <p className="text-base">
-                <span className="font-semibold">Done tasks: </span> 
-                <span>{completedCount}/{totalCount}</span>
-            </p>
+            {item.todos && item.todos.length > 0 ? (
+                <p className="text-base">
+                    <span className="font-semibold">Done tasks: </span>
+                    <span>{completedCount}/{totalCount}</span>
+                </p>
+            ) : (
+                <p className="text-base">
+                    There are no tasks in this list
+                </p>
+            )}
         </div>
     );
 };
