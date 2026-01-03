@@ -1,4 +1,5 @@
 import Input from "@/components/form/Input/Input";
+import PictureProfile from "@/components/profile/PictureProfile/PictureProfile";
 import { useAuth } from "@/stores/authStore";
 import { UserWithPassword } from "@/types/auth.types";
 import { useState, useEffect } from "react";
@@ -49,14 +50,14 @@ const ProfilePage: React.FC = () => {
             <h2 className="text-2xl font-bold">Profile Page</h2>
             <div className="flex flex-col gap-2">
                 <label htmlFor="avatar" className="text-base font-bold">Picture</label>
-                <div className="w-[80px] h-[80px] overflow-hidden">
-                    <img 
-                        src={user.avatar} 
-                        alt="Avatar" 
-                        id="avatar"
-                        className="w-full h-full rounded-full object-cover border border-4 border-true-blue" 
-                    />
-                </div>
+                <PictureProfile
+                    src={user.avatar}
+                    alt="Avatar"
+                    id="avatar"
+                    width={80}
+                    height={80}
+                    borderWidth={4}
+                />
             </div>
             <div className="flex gap-4">
                 <Input
