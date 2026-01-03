@@ -49,3 +49,13 @@ body {
 .app {
   min-height: 100vh;
 }
+
+.list-item-hover {
+  --item-color: transparent;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.list-item-hover:hover {
+  background-color: color-mix(in srgb, var(--item-color) 20%, transparent);
+}
