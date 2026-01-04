@@ -5,6 +5,7 @@ import TasksContent from "../TasksContent/TasksContent";
 
 type PrioritySort = "none" | "asc" | "desc";
 type DueDateSort = "none" | "asc" | "desc";
+type CompletedSort = "none" | "asc" | "desc";
 
 interface TasksContainerProps {
     selectedList: TaskList | null;
@@ -13,9 +14,11 @@ interface TasksContainerProps {
     searchQuery: string;
     prioritySort: PrioritySort;
     dueDateSort: DueDateSort;
+    completedSort: CompletedSort;
     onSearchChange: (value: string) => void;
     onPrioritySortChange: (value: PrioritySort) => void;
     onDueDateSortChange: (value: DueDateSort) => void;
+    onCompletedSortChange: (value: CompletedSort) => void;
     onResetFilters: () => void;
     onToggleTaskComplete?: (taskId: number, completed: boolean) => void;
 }
@@ -27,9 +30,11 @@ const TasksContainer: React.FC<TasksContainerProps> = ({
     searchQuery,
     prioritySort,
     dueDateSort,
+    completedSort,
     onSearchChange,
     onPrioritySortChange,
     onDueDateSortChange,
+    onCompletedSortChange,
     onResetFilters,
     onToggleTaskComplete
 }) => {
@@ -56,9 +61,11 @@ const TasksContainer: React.FC<TasksContainerProps> = ({
                 searchQuery={searchQuery}
                 prioritySort={prioritySort}
                 dueDateSort={dueDateSort}
+                completedSort={completedSort}
                 onSearchChange={onSearchChange}
                 onPrioritySortChange={onPrioritySortChange}
                 onDueDateSortChange={onDueDateSortChange}
+                onCompletedSortChange={onCompletedSortChange}
                 onResetFilters={onResetFilters}
             />
 

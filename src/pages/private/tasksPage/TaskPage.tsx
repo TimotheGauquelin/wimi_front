@@ -10,6 +10,7 @@ import TasksContainer from "@/components/tasks/TasksContainer/TasksContainer";
 
 type PrioritySort = "none" | "asc" | "desc";
 type DueDateSort = "none" | "asc" | "desc";
+type CompletedSort = "none" | "asc" | "desc";
 
 const TaskPage: React.FC = () => {
 
@@ -22,7 +23,7 @@ const TaskPage: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [prioritySort, setPrioritySort] = useState<PrioritySort>("none");
     const [dueDateSort, setDueDateSort] = useState<DueDateSort>("none");
-
+    const [completedSort, setCompletedSort] = useState<CompletedSort>("none");
     useEffect(() => {
         if (user?.id) {
             setLoading(true);
@@ -99,8 +100,18 @@ const TaskPage: React.FC = () => {
             });
         }
 
+        if (completedSort !== "none") {
+            tasks.sort((a, b) => {
+                const completedA = a.completed ? 1 : 0;
+                const completedB = b.completed ? 1 : 0;
+                return completedSort === "asc"
+                    ? completedA - completedB
+                    : completedB - completedA;
+            });
+        }
+
         return tasks;
-    }, [selectedList?.todos, searchQuery, prioritySort, dueDateSort]);
+    }, [selectedList?.todos, searchQuery, prioritySort, dueDateSort, completedSort]);
 
 
     if (!user) {
@@ -134,6 +145,7 @@ const TaskPage: React.FC = () => {
         setSearchQuery("");
         setPrioritySort("none");
         setDueDateSort("none");
+        setCompletedSort("none");
     };
 
     const handleToggleTaskComplete = async (taskId: number, completed: boolean) => {
@@ -184,9 +196,11 @@ const TaskPage: React.FC = () => {
                     searchQuery={searchQuery}
                     prioritySort={prioritySort}
                     dueDateSort={dueDateSort}
+                    completedSort={completedSort}
                     onSearchChange={setSearchQuery}
                     onPrioritySortChange={setPrioritySort}
                     onDueDateSortChange={setDueDateSort}
+                    onCompletedSortChange={setCompletedSort}
                     onResetFilters={handleResetFilters}
                     onToggleTaskComplete={handleToggleTaskComplete}
                 />

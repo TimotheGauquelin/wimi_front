@@ -3,14 +3,17 @@ import SelectInput from "@/components/form/SelectInput/SelectInput";
 
 type PrioritySort = "none" | "asc" | "desc";
 type DueDateSort = "none" | "asc" | "desc";
+type CompletedSort = "none" | "asc" | "desc";
 
 interface TasksFiltersProps {
     searchQuery: string;
     prioritySort: PrioritySort;
     dueDateSort: DueDateSort;
+    completedSort: CompletedSort;
     onSearchChange: (value: string) => void;
     onPrioritySortChange: (value: PrioritySort) => void;
     onDueDateSortChange: (value: DueDateSort) => void;
+    onCompletedSortChange: (value: CompletedSort) => void;
     onResetFilters: () => void;
 }
 
@@ -18,9 +21,11 @@ const TasksFilters: React.FC<TasksFiltersProps> = ({
     searchQuery,
     prioritySort,
     dueDateSort,
+    completedSort,
     onSearchChange,
     onPrioritySortChange,
     onDueDateSortChange,
+    onCompletedSortChange,
     onResetFilters
 }) => {
     return (
@@ -33,7 +38,7 @@ const TasksFilters: React.FC<TasksFiltersProps> = ({
                 >Reset Filters
                 </span>
             </div>
-            <div className="flex flex-row gap-2 grid grid-cols-4 mt-2">
+            <div className="flex flex-row gap-2 grid grid-cols-5 mt-2">
                 <SearchInput
                     placeholder="Search by title"
                     value={searchQuery}
@@ -57,6 +62,16 @@ const TasksFilters: React.FC<TasksFiltersProps> = ({
                         { value: "none", label: "Sorting by due date" },
                         { value: "asc", label: "Nearest due date first" },
                         { value: "desc", label: "Earliest due date first" }
+                    ]}
+                    className="col-span-1"
+                />
+                <SelectInput
+                    value={completedSort}
+                    onChange={(e) => onCompletedSortChange(e.target.value as CompletedSort)}
+                    options={[
+                        { value: "none", label: "Sorting by status" },
+                        { value: "desc", label: "Completed first" },
+                        { value: "asc", label: "Not completed first" }
                     ]}
                     className="col-span-1"
                 />
