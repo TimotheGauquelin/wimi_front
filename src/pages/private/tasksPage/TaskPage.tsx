@@ -1,25 +1,38 @@
 import { useAuth } from "@/stores/authStore";
 import { getAllLists } from "@/services/lists/getAllLists";
-import { useEffect, useState } from "react";
-import TaskListItem from "@/components/lists/TaskListItem";
+import { getTasksByListId } from "@/services/tasks/getTasksByListId";
+import { useEffect, useState, useMemo } from "react";
 import { TaskList } from "@/types/list.types";
-import { Task } from "@/types/task.types";
-import TaskItem from "@/components/lists/TaskItem";
+import { getPriorityValue } from "@/utils/functions/getPriorityValue";
+import TasksListsSidebar from "@/components/tasks/TasksListsSidebar/TasksListsSidebar";
+import TasksContainer from "@/components/tasks/TasksContainer/TasksContainer";
+
+type PrioritySort = "none" | "asc" | "desc";
+type DueDateSort = "none" | "asc" | "desc";
 
 const TaskPage: React.FC = () => {
 
     const { user } = useAuth();
     const [lists, setLists] = useState<TaskList[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [loadingTasks, setLoadingTasks] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [selectedList, setSelectedList] = useState<TaskList | null>(null);
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [prioritySort, setPrioritySort] = useState<PrioritySort>("none");
+    const [dueDateSort, setDueDateSort] = useState<DueDateSort>("none");
 
     useEffect(() => {
         if (user?.id) {
             setLoading(true);
             setError(null);
             getAllLists(user.id)
-                .then(setLists)
+                .then((fetchedLists) => {
+                    setLists(fetchedLists);
+                    if (fetchedLists.length > 0) {
+                        setSelectedList(fetchedLists[0]);
+                    }
+                })
                 .catch((err) => {
                     setError(err instanceof Error ? err.message : 'An error occurred');
                     console.error('Error fetching lists:', err);
@@ -29,10 +42,65 @@ const TaskPage: React.FC = () => {
     }, [user]);
 
     useEffect(() => {
-        if (lists.length > 0 && !selectedList) {
-            setSelectedList(lists[0]);
+        if (selectedList && selectedList.todos === undefined) {
+            setLoadingTasks(true);
+            getTasksByListId(selectedList.id)
+                .then((tasks) => {
+                    setLists(prevLists => 
+                        prevLists.map(list => 
+                            list.id === selectedList.id 
+                                ? { ...list, todos: tasks }
+                                : list
+                        )
+                    );
+                    setSelectedList(prev => prev ? { ...prev, todos: tasks } : null);
+                })
+                .catch((err) => {
+                    console.error('Error fetching tasks:', err);
+                })
+                .finally(() => setLoadingTasks(false));
         }
-    }, [lists]);
+    }, [selectedList]);
+
+    const filteredAndSortedTasks = useMemo(() => {
+        if (!selectedList?.todos) return [];
+
+        let tasks = [...selectedList.todos];
+
+        if (searchQuery.trim()) {
+            tasks = tasks.filter(task =>
+                task.title.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        }
+
+        if (prioritySort !== "none") {
+            tasks.sort((a, b) => {
+                const priorityA = getPriorityValue(a.priority);
+                const priorityB = getPriorityValue(b.priority);
+                return prioritySort === "asc"
+                    ? priorityA - priorityB
+                    : priorityB - priorityA;
+            });
+        }
+
+        if (dueDateSort !== "none") {
+            tasks.sort((a, b) => {
+                const dateA = a.dueDate ? new Date(a.dueDate).getTime() : 0;
+                const dateB = b.dueDate ? new Date(b.dueDate).getTime() : 0;
+                
+                if (dateA === 0 && dateB === 0) return 0;
+                if (dateA === 0) return 1;
+                if (dateB === 0) return -1;
+                
+                return dueDateSort === "asc"
+                    ? dateA - dateB
+                    : dateB - dateA;
+            });
+        }
+
+        return tasks;
+    }, [selectedList?.todos, searchQuery, prioritySort, dueDateSort]);
+
 
     if (!user) {
         return (
@@ -61,59 +129,36 @@ const TaskPage: React.FC = () => {
         );
     }
 
+    const handleResetFilters = () => {
+        setSearchQuery("");
+        setPrioritySort("none");
+        setDueDateSort("none");
+    };
+
     return (
         <div className="flex flex-col h-full gap-4">
             <h2 className="text-2xl font-bold">My Tasks</h2>
 
             <div className="flex flex-row gap-4 h-full min-h-0">
-                <div className="w-1/5 flex flex-col gap-4 border border-2 border-gray-outline rounded-md p-4">
-                    <p className="text-xl font-bold">Tasks Lists ({lists.length})</p>
-                    <button className="w-fit cursor-pointer bg-true-blue text-white px-4 py-2 rounded-md">Create a list</button>
-                    <div className="flex flex-col gap-2 bg-gray-background h-full rounded-md p-2">
-                        {lists.length > 0
-                            ? lists.map((item: TaskList) => (
-                                <TaskListItem
-                                    key={item.id}
-                                    item={item}
-                                    onClick={() => setSelectedList(item)}
-                                    isSelected={selectedList?.id === item.id}
-                                />
-                            ))
-                            : (
-                                <p>
-                                    No lists found
-                                </p>
-                            )}
-                    </div>
-                </div>
+                <TasksListsSidebar
+                    lists={lists}
+                    selectedList={selectedList}
+                    onListSelect={setSelectedList}
+                    onResetFilters={handleResetFilters}
+                />
 
-                <div className="w-4/5 h-full flex flex-col gap-4 bg-gray-background rounded-md p-4 overflow-hidden">
-                    {selectedList ? (
-                        <>
-                            <h3 className="text-xl font-bold" style={{ color: selectedList.color }}>
-                                {selectedList.title} ({selectedList.todos?.filter(task => task.completed).length}/{selectedList.todos?.length})
-                            </h3>
-
-                            {selectedList.todos && selectedList.todos.length > 0 ? (
-                                <div className="flex flex-col gap-2 min-h-0 overflow-y-auto overflow-x-hidden">
-                                    {selectedList.todos.map((task: Task) => (
-                                        <TaskItem key={task.id} task={task} />
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="text-center py-8">
-                                    No tasks in this list
-                                </div>
-                            )}
-                        </>
-                    ) : (
-                        <div className="flex items-center justify-center h-full py-16">
-                            <p className="text-lg">
-                                Please select a list to view its tasks
-                            </p>
-                        </div>
-                    )}
-                </div>
+                <TasksContainer
+                    selectedList={selectedList}
+                    filteredTasks={filteredAndSortedTasks}
+                    loadingTasks={loadingTasks}
+                    searchQuery={searchQuery}
+                    prioritySort={prioritySort}
+                    dueDateSort={dueDateSort}
+                    onSearchChange={setSearchQuery}
+                    onPrioritySortChange={setPrioritySort}
+                    onDueDateSortChange={setDueDateSort}
+                    onResetFilters={handleResetFilters}
+                />
             </div>
         </div>
     );
