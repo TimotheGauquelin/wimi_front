@@ -26,6 +26,24 @@
       "lastName": "Wilson",
       "avatar": "https://i.pravatar.cc/150?img=3",
       "role": "UX Designer"
+    },
+    {
+      "id": 4,
+      "email": "alice.johnson@example.com",
+      "password": "password123",
+      "firstName": "Alice",
+      "lastName": "Johnson",
+      "avatar": "https://i.pravatar.cc/150?img=4",
+      "role": "Backend Developer"
+    },
+    {
+      "id": 5,
+      "email": "charlie.brown@example.com",
+      "password": "password123",
+      "firstName": "Charlie",
+      "lastName": "Brown",
+      "avatar": "https://i.pravatar.cc/150?img=5",
+      "role": "Product Owner"
     }
   ],
   "todoLists": [
@@ -98,6 +116,13 @@
       "userId": 1,
       "color": "#8b5cf6",
       "createdAt": "2024-01-24T18:00:00.000Z"
+    },
+    {
+      "id": 11,
+      "title": "Product Roadmap",
+      "userId": 5,
+      "color": "#8b5cf6",
+      "createdAt": "2024-01-25T19:00:00.000Z"
     }
   ],
   "todos": [
@@ -5098,6 +5123,26 @@
       "completed": false,
       "todoListId": 10,
       "priority": "low",
+      "dueDate": "2024-03-15",
+      "createdAt": "2024-01-24T09:43:00.000Z"
+    },
+    {
+      "id": 501,
+      "title": "Review and update user dashboard",
+      "description": "This task requires careful attention to detail and coordination with the team",
+      "completed": false,
+      "todoListId": 11,
+      "priority": "low",
+      "dueDate": "2024-03-15",
+      "createdAt": "2024-01-24T09:43:00.000Z"
+    },
+    {
+      "id": 502,
+      "title": "Review and update user dashboard",
+      "description": "This task requires careful attention to detail and coordination with the team",
+      "completed": true,
+      "todoListId": 11,
+      "priority": "high",
       "dueDate": "2024-03-15",
       "createdAt": "2024-01-24T09:43:00.000Z"
     }
