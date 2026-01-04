@@ -25,7 +25,7 @@ And many configuration files that allow the app to run corretly
 
 ### State Management
 
-<!-- Document which state management solution you chose and why -->
+I used Zustand to create a User and Modal store
 
 ### Styling
 
@@ -42,19 +42,22 @@ I use Vitest for many reasons :
 
 ### Core Features
 
-- [ ] Login page with authentication
-- [ ] Todo lists display
-- [ ] Todos display within lists
-- [ ] Mark todos as completed
-- [ ] Create new todos
-- [ ] User sidebar with information
+- [v] Login page with authentication
+- [v] Todo lists display
+- [v] Todos display within lists
+- [v] Mark todos as completed
+- [v] Create new todos
+- [v] User sidebar with information
 
 ### Bonus Features
 
-<!-- List any bonus features you implemented -->
-
-- [ ]
-- [ ]
+- [v] Create new lists
+- [ ] Delete a list
+- [ ] Update a list
+- [ ] Update a task
+- [ ] Delete a task
+- [ ] Register
+- [ ] Update its profile
 
 ## 📚 Libraries & Dependencies
 
