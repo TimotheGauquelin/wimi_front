@@ -6,12 +6,14 @@ interface TasksContentProps {
     selectedList: TaskList;
     filteredTasks: Task[];
     loadingTasks: boolean;
+    onToggleTaskComplete?: (taskId: number, completed: boolean) => void;
 }
 
 const TasksContent: React.FC<TasksContentProps> = ({
     selectedList,
     filteredTasks,
-    loadingTasks
+    loadingTasks,
+    onToggleTaskComplete
 }) => {
     if (loadingTasks) {
         return (
@@ -25,7 +27,11 @@ const TasksContent: React.FC<TasksContentProps> = ({
         return (
             <div className="flex flex-col gap-2 min-h-0 overflow-y-auto overflow-x-hidden">
                 {filteredTasks.map((task: Task) => (
-                    <TaskItem key={task.id} task={task} />
+                    <TaskItem 
+                        key={task.id} 
+                        task={task} 
+                        onToggleComplete={onToggleTaskComplete}
+                    />
                 ))}
             </div>
         );

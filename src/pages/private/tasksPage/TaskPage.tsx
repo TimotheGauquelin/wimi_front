@@ -1,6 +1,7 @@
 import { useAuth } from "@/stores/authStore";
 import { getAllLists } from "@/services/lists/getAllLists";
 import { getTasksByListId } from "@/services/tasks/getTasksByListId";
+import { updateTask } from "@/services/tasks/updateTask";
 import { useEffect, useState, useMemo } from "react";
 import { TaskList } from "@/types/list.types";
 import { getPriorityValue } from "@/utils/functions/getPriorityValue";
@@ -135,6 +136,35 @@ const TaskPage: React.FC = () => {
         setDueDateSort("none");
     };
 
+    const handleToggleTaskComplete = async (taskId: number, completed: boolean) => {
+        try {
+            await updateTask(taskId, { completed });
+            
+            setLists(prevLists =>
+                prevLists.map(list => ({
+                    ...list,
+                    todos: list.todos?.map(task =>
+                        task.id === taskId ? { ...task, completed } : task
+                    )
+                }))
+            );
+
+            if (selectedList) {
+                setSelectedList(prev => {
+                    if (!prev) return null;
+                    return {
+                        ...prev,
+                        todos: prev.todos?.map(task =>
+                            task.id === taskId ? { ...task, completed } : task
+                        )
+                    };
+                });
+            }
+        } catch (err) {
+            console.error('Error updating task:', err);
+        }
+    };
+
     return (
         <div className="flex flex-col h-full gap-4">
             <h2 className="text-2xl font-bold">My Tasks</h2>
@@ -158,6 +188,7 @@ const TaskPage: React.FC = () => {
                     onPrioritySortChange={setPrioritySort}
                     onDueDateSortChange={setDueDateSort}
                     onResetFilters={handleResetFilters}
+                    onToggleTaskComplete={handleToggleTaskComplete}
                 />
             </div>
         </div>

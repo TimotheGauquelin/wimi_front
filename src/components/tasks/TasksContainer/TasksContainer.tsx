@@ -17,6 +17,7 @@ interface TasksContainerProps {
     onPrioritySortChange: (value: PrioritySort) => void;
     onDueDateSortChange: (value: DueDateSort) => void;
     onResetFilters: () => void;
+    onToggleTaskComplete?: (taskId: number, completed: boolean) => void;
 }
 
 const TasksContainer: React.FC<TasksContainerProps> = ({
@@ -29,7 +30,8 @@ const TasksContainer: React.FC<TasksContainerProps> = ({
     onSearchChange,
     onPrioritySortChange,
     onDueDateSortChange,
-    onResetFilters
+    onResetFilters,
+    onToggleTaskComplete
 }) => {
     const completedTasks = selectedList?.todos?.filter(task => task.completed).length || 0;
     const totalTasks = selectedList?.todos?.length || 0;
@@ -64,6 +66,7 @@ const TasksContainer: React.FC<TasksContainerProps> = ({
                 selectedList={selectedList}
                 filteredTasks={filteredTasks}
                 loadingTasks={loadingTasks}
+                onToggleTaskComplete={onToggleTaskComplete}
             />
         </div>
     );

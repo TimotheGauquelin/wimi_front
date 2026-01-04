@@ -7,6 +7,8 @@
   --color-true-blue: #2F65DB;
   --color-pale-blue: #9AB6F2;
   --color-light-yellow: #FFF7D3;
+  --color-light-green: #C9EAB9;
+  --color-true-green: #34C759;
   --color-black-font: #2A3342;
   --color-gray-outline: #D5DAE1;
   --color-gray-background: #F2F2F2;
@@ -62,3 +64,36 @@ body {
 .list-item-hover:hover {
   background-color: color-mix(in srgb, var(--item-color) 20%, white);
 }
+
+input[type="checkbox"] {
+  appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  transform: translateY(-0.075em);
+  display: grid;
+  place-content: center;
+}
+
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+  background-color: var(--color-true-green);
+  transform-origin: bottom left;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
