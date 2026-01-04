@@ -7,15 +7,18 @@ describe('TasksFilters', () => {
   const mockOnSearchChange = vi.fn();
   const mockOnPrioritySortChange = vi.fn();
   const mockOnDueDateSortChange = vi.fn();
+  const mockOnCompletedSortChange = vi.fn();
   const mockOnResetFilters = vi.fn();
 
   const defaultProps = {
     searchQuery: '',
     prioritySort: 'none' as const,
     dueDateSort: 'none' as const,
+    completedSort: 'none' as const,
     onSearchChange: mockOnSearchChange,
     onPrioritySortChange: mockOnPrioritySortChange,
     onDueDateSortChange: mockOnDueDateSortChange,
+    onCompletedSortChange: mockOnCompletedSortChange,
     onResetFilters: mockOnResetFilters
   };
 
@@ -54,11 +57,11 @@ describe('TasksFilters', () => {
     expect(searchInput.value).toBe('test query');
   });
 
-  it('should render both SelectInput components', () => {
+  it('should render all three SelectInput components', () => {
     render(<TasksFilters {...defaultProps} />);
 
     const selects = screen.getAllByRole('combobox');
-    expect(selects).toHaveLength(2);
+    expect(selects).toHaveLength(3);
   });
 
   it('should display correct priority sort value', () => {
@@ -73,6 +76,23 @@ describe('TasksFilters', () => {
 
     const dueDateSelect = screen.getAllByRole('combobox')[1] as HTMLSelectElement;
     expect(dueDateSelect.value).toBe('asc');
+  });
+
+  it('should display correct completed sort value', () => {
+    render(<TasksFilters {...defaultProps} completedSort="desc" />);
+
+    const completedSelect = screen.getAllByRole('combobox')[2] as HTMLSelectElement;
+    expect(completedSelect.value).toBe('desc');
+  });
+
+  it('should call onCompletedSortChange when completed sort is changed', async () => {
+    const user = userEvent.setup();
+    render(<TasksFilters {...defaultProps} />);
+
+    const completedSelect = screen.getAllByRole('combobox')[2];
+    await user.selectOptions(completedSelect, 'desc');
+
+    expect(mockOnCompletedSortChange).toHaveBeenCalledTimes(1);
   });
 });
 
