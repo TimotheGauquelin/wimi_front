@@ -13,6 +13,7 @@
   --color-gray-outline: #D5DAE1;
   --color-gray-background: #F2F2F2;
   --color-black-gray: #E4E4E4;
+  --color-gray-transparent: rgba(0, 0, 0, 0.5);
 
   --text-xs: 0.625rem; /* 10px */
   --text-sm: 0.75rem; /* 12px */

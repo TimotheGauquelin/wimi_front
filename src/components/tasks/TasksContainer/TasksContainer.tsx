@@ -2,6 +2,8 @@ import { TaskList } from "@/types/list.types";
 import { Task } from "@/types/task.types";
 import TasksFilters from "../TasksFilters/TasksFilters";
 import TasksContent from "../TasksContent/TasksContent";
+import { useModal } from "@/hooks/useModal";
+import CreateTaskModal from "@/modals/CreateTaskModal/CreateTaskModal";
 
 type PrioritySort = "none" | "asc" | "desc";
 type DueDateSort = "none" | "asc" | "desc";
@@ -21,6 +23,7 @@ interface TasksContainerProps {
     onCompletedSortChange: (value: CompletedSort) => void;
     onResetFilters: () => void;
     onToggleTaskComplete?: (taskId: number, completed: boolean) => void;
+    onTaskCreated?: () => void;
 }
 
 const TasksContainer: React.FC<TasksContainerProps> = ({
@@ -36,10 +39,13 @@ const TasksContainer: React.FC<TasksContainerProps> = ({
     onDueDateSortChange,
     onCompletedSortChange,
     onResetFilters,
-    onToggleTaskComplete
+    onToggleTaskComplete,
+    onTaskCreated
 }) => {
     const completedTasks = selectedList?.todos?.filter(task => task.completed).length || 0;
     const totalTasks = selectedList?.todos?.length || 0;
+
+    const { openModal } = useModal();
 
     if (!selectedList) {
         return (
@@ -56,6 +62,20 @@ const TasksContainer: React.FC<TasksContainerProps> = ({
             <h3 className="text-xl font-bold" style={{ color: selectedList.color }}>
                 {selectedList.title} ({completedTasks}/{totalTasks})
             </h3>
+
+            <div className="flex flex-row gap-2">
+                <button
+                    className="bg-true-blue hover:opacity-80 transition-opacity text-white cursor-pointer px-4 py-2 rounded-md"
+                    onClick={() => {
+                        if (selectedList) {
+                            openModal(<CreateTaskModal title="Add a task" selectedList={selectedList} onTaskCreated={onTaskCreated} />);
+                        }
+                    }}
+                    disabled={!selectedList}
+                >
+                    Add a task
+                </button>
+            </div>
 
             <TasksFilters
                 searchQuery={searchQuery}
