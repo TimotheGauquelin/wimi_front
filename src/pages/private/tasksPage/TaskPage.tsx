@@ -177,6 +177,21 @@ const TaskPage: React.FC = () => {
         }
     };
 
+    const handleListCreated = async () => {
+        if (user?.id) {
+            try {
+                const fetchedLists = await getAllLists(user.id);
+                setLists(fetchedLists);
+                if (fetchedLists.length > 0) {
+                    const newList = fetchedLists[fetchedLists.length - 1];
+                    setSelectedList(newList);
+                }
+            } catch (err) {
+                console.error('Error refreshing lists:', err);
+            }
+        }
+    };
+
     return (
         <div className="flex flex-col h-full gap-4">
             <h2 className="text-2xl font-bold">My Tasks</h2>
@@ -187,6 +202,7 @@ const TaskPage: React.FC = () => {
                     selectedList={selectedList}
                     onListSelect={setSelectedList}
                     onResetFilters={handleResetFilters}
+                    onListCreated={handleListCreated}
                 />
 
                 <TasksContainer
